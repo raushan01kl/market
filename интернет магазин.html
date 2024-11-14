@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecommerce Website</title>
+  <style>
+    /* CSS styles go here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-gap: 20px;
+    }
+    
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .cart {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Ecommerce Store</h1>
+    <div class="product-grid" id="product-grid">
+      <!-- Products will be dynamically added here -->
+    </div>
+  </div>
+  
+  <div class="cart">
+    <h2>Cart</h2>
+    <div id="cart-items">
+      <!-- Cart items will be dynamically added here -->
+    </div>
+    <p>Total: <span id="total-price">$0</span></p>
+  </div>
+
+  <script>
+    // JavaScript code goes here
+    const products = [
+      { name: "Kenwood Titanium Chef Patissier", image: "https://e-katalog.kz/jpg/2041330.jpg", price: 9.99 },
+      { name: "Xiaomi Pad 6", image: "https://e-katalog.kz/jpg/2429059.jpg", price: 14.99 },
+      { name: "Canon EOS 250D kit 18-55", image: "https://e-katalog.kz/jpg/1559176.jpg", price: 19.99 },
+      { name: "Samsung Galaxy Buds2 Pro", image: "https://e-katalog.kz/jpg/2259309.jpg", price: 24.99 },
+      { name: "Acer Nitro V 15 ANV15-51", image: "https://e-katalog.kz/jpg/2576995.jpg", price: 29.99 },
+      { name: "Electrolux EFP/W-2000S", image: "https://e-katalog.kz/jpg/1032800.jpg", price: 34.99 }
+    ];
+
+    const productGrid = document.getElementById("product-grid");
+    const cartItems = document.getElementById("cart-items");
+    const totalPrice = document.getElementById("total-price");
+
+    let cart = [];
+    let totalCartValue = 0;
+
+    products.forEach(product => {
+      const productCard = document.createElement("div");
+      productCard.classList.add("product-card");
+
+      const img = document.createElement("img");
+      img.src = product.image;
+      img.alt = product.name;
+
+      const name = document.createElement("h3");
+      name.textContent = product.name;
+
+      const price = document.createElement("p");
+      price.textContent = `$${product.price.toFixed(2)}`;
+
+      const addToCart = document.createElement("button");
+      addToCart.textContent = "Add to Cart";
+      addToCart.addEventListener("click", () => addToCart_(product));
+
+      productCard.appendChild(img);
+      productCard.appendChild(name);
+      productCard.appendChild(price);
+      productCard.appendChild(addToCart);
+      productGrid.appendChild(productCard);
+    });
+
+    function addToCart_(product) {
+      cart.push(product);
+      updateCart();
+    }
+
+    function updateCart() {
+      cartItems.innerHTML = "";
+      totalCartValue = 0;
+
+      cart.forEach(product => {
+        const cartItem = document.createElement("div");
+        cartItem.textContent = `${product.name} - $${product.price.toFixed(2)}`;
+        cartItems.appendChild(cartItem);
+        totalCartValue += product.price;
+      });
+
+      totalPrice.textContent = `$${totalCartValue.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
